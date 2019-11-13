@@ -22,7 +22,6 @@ void handlerCoureur(int sig){
         fprintf(stderr,"Interruption par signal\n");
         exit(sig);
     }
-
 }
 
 int main(int argc, char * argv[]){

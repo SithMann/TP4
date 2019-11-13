@@ -43,6 +43,8 @@ int main(int argc, char * argv[]){
     R.corps.etat = EN_COURSE;
     id = msgget(cle, 0666);
 
+    int noerr;
+
     /* Si le coureur reçoit un signal de type SIGINT, il abandonne */
     struct sigaction action;
 
@@ -55,11 +57,14 @@ int main(int argc, char * argv[]){
 
     while(Rep.corps.etat == EN_COURSE){
 
+        
         /* Envoie d'une requete au PC course */
         msgsnd(id, &R, sizeof(R.corps), 0);
 
         /* Reception d'une réponse */
-        msgrcv(id, &Rep, sizeof(Rep.corps), getpid(),0);
+        while(noerr = msgrcv(id, &Rep, sizeof(Rep.corps), getpid(),0)){
+            sleep(1);
+        }
         R.corps.etat = Rep.corps.etat;
 
         system("clear");
